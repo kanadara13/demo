@@ -5,12 +5,10 @@ import com.gos.demo.order.BSellerApi;
 import com.gos.demo.order.CSellerApi;
 import com.gos.demo.order.OrderFinder;
 import com.gos.demo.seller.Order;
-import com.gos.demo.seller.Seller;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -20,7 +18,7 @@ public class FlatMapTest {
     @Test
     public void testForNotUseFlatMap(){
         List<CompletableFuture<List<Order>>> sellerOrders =
-                getOrders().stream()
+                getVendors().stream()
                         .map(e-> CompletableFuture.supplyAsync((()->e.find())))
                         .collect(Collectors.toList());
 
@@ -36,7 +34,7 @@ public class FlatMapTest {
     @Test
     public void testForUseFlatMap(){
         List<CompletableFuture<List<Order>>> sellerOrders =
-                getOrders().stream()
+                getVendors().stream()
                         .map(e-> CompletableFuture.supplyAsync((()->e.find())))
                         .collect(Collectors.toList());
 
@@ -51,7 +49,7 @@ public class FlatMapTest {
     }
 
 
-    private List<OrderFinder> getOrders() {
+    private List<OrderFinder> getVendors() {
         return Lists.newArrayList(new ASellerApi(), new BSellerApi(), new CSellerApi());
     }
 }
